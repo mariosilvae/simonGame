@@ -44,7 +44,7 @@ class Game {
     }
 
     illuminateSequence() {
-        for (let i = 0; i < this.nivel; i++) {
+        for (let i = 0; i < this.level; i++) {
             const color = this.transformNumberToColor(this.sequence[i]);
             setTimeout(() => this.illuminateColor(color), 1000 * i);
         }
