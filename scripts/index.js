@@ -7,6 +7,7 @@ const FINAL_LEVEL = 10;
 
 class Game {
     constructor() {
+        this.start = this.start.bind(this);
         this.start();
         this.generateSequence();
         setTimeout(this.nextLevel, 500);
@@ -15,13 +16,21 @@ class Game {
     start() {
         this.chooseColor = this.chooseColor.bind(this);
         this.nextLevel = this.nextLevel.bind(this);
-        btnStart.classList.add('hide');
+        this.toggleBtnStart();
         this.level = 1;
         this.colors = {
             blue: blue,
             violet: violet,
             orange: orange,
             green: green,
+        }
+    }
+
+    toggleBtnStart() {
+        if (btnStart.classList.contains('hide')) {
+            btnStart.classList.remove('hide');
+        } else {
+            btnStart.classList.add('hide');
         }
     }
 
@@ -102,13 +111,38 @@ class Game {
                 this.eliminateEventClick()
                 if(this.level === (FINAL_LEVEL + 1)) {
                     //Win
+                    this.youWin();
                 } else {
                     setTimeout(this.nextLevel, 1500);
                 }
             }
         }else {
             //You Lost
+            this.youLost();
         }
+    }
+
+    youWin() {
+        swal({
+            title: "Good job!",
+            text: "You win!",
+            icon: "success",
+            button: "Play again!",
+          })
+        .then(this.start)
+    }
+
+    youLost() {
+        swal({
+            title: "You were so close!",
+            text: "Try again",
+            icon: "error",
+            button: "Play again",
+          })
+        .then(()=> {
+            this.eliminateEventClick()
+            this.start()
+        })
     }
 }
 
